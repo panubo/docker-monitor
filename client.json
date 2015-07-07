@@ -1,0 +1,9 @@
+{
+  "client": {
+    "name": "{{ HOSTNAME }}",
+    "address": "{{ IPADDRESS|default(HOSTNAME) }}",
+    "subscriptions": [
+      "test"
+    ]
+  }
+}
