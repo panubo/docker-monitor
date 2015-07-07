@@ -30,7 +30,7 @@ RUN /opt/sensu/embedded/bin/gem install \
   --no-rdoc --no-ri
 
 ENV PATH=/opt/sensu/embedded/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin TMPDIR=/var/tmp HOME=/opt/sensu
-ENV LOGLEVEL=info
+ENV LOGLEVEL=info SENSU_CLIENT_SUBSCRIPTIONS=test
 
 # Add custom checks and scripts
 

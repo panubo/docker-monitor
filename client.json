@@ -1,9 +1,10 @@
+{% set subs = SENSU_CLIENT_SUBSCRIPTIONS.split(',') -%}
 {
-  "client": {
-    "name": "{{ HOSTNAME }}",
-    "address": "{{ IPADDRESS|default(HOSTNAME) }}",
-    "subscriptions": [
-      "test"
-    ]
-  }
+    "client": {
+        "name": "{{ HOSTNAME }}",
+        "address": "{{ IPADDRESS|default(HOSTNAME) }}",
+        "subscriptions": [{% for sub in subs %}
+            "{{ sub }}"{% if not loop.last %},{% endif %}{% endfor %}
+        ]
+    }
 }
