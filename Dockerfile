@@ -20,7 +20,7 @@ RUN apt-get update && \
 RUN curl -L https://github.com/voltgrid/voltgrid-pie/archive/v1.tar.gz | tar -C /usr/local/bin --strip-components 1 -zxf - voltgrid-pie-1/voltgrid.py
 
 ENTRYPOINT ["/usr/local/bin/voltgrid.py"]
-CMD ["/opt/sensu/bin/sensu-client", "-c", "/etc/sensu/config.json", "-d", "/etc/sensu/conf.d", "-e", "/etc/sensu/extensions", "-L", "info"]
+CMD ["/opt/sensu/bin/sensu-client", "-c", "/etc/sensu/config.json", "-d", "/etc/sensu/conf.d", "-e", "/etc/sensu/extensions", "-L", "warn"]
 
 # Install some plugins/checks
 RUN /opt/sensu/embedded/bin/gem install \
