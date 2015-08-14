@@ -8,12 +8,10 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
   apt-get -y install curl sudo bc python-jinja2
 
-# Setup sensu package repo
+# Setup sensu package repo & Install Sensu
 RUN curl http://repos.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
-  echo "deb     http://repos.sensuapp.org/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list
-
-# Install sensu
-RUN apt-get update && \
+  echo "deb     http://repos.sensuapp.org/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list && \
+  apt-get update && \
   apt-get install sensu && \
   echo "EMBEDDED_RUBY=true" > /etc/default/sensu
 
@@ -23,11 +21,13 @@ ENTRYPOINT ["/usr/local/bin/voltgrid.py"]
 CMD ["/opt/sensu/bin/sensu-client", "-c", "/etc/sensu/config.json", "-d", "/etc/sensu/conf.d", "-e", "/etc/sensu/extensions", "-L", "warn"]
 
 # Install some plugins/checks
-RUN /opt/sensu/embedded/bin/gem install \
+RUN apt-get install -y build-essential && \
+  /opt/sensu/embedded/bin/gem install \
   sensu-plugins-disk-checks \
   sensu-plugins-memory-checks \
   sensu-plugins-load-checks \
-  --no-rdoc --no-ri
+  --no-rdoc --no-ri && \
+  apt-get remove -y build-essential && apt-get -y autoremove && rm -rf /var/lib/apt/lists/*
 
 ENV PATH=/opt/sensu/embedded/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin TMPDIR=/var/tmp HOME=/opt/sensu
 ENV LOGLEVEL=info SENSU_CLIENT_SUBSCRIPTIONS=test
