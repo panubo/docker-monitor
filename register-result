@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+CHECK_NAME=${1-${CHECK_NAME}}
+CHECK_OUTPUT=${2-${CHECK_OUTPUT}}
+CHECK_STATUS=${3-${CHECK_STATUS}}
+CHECK_TTL=${4-${CHECK_TTL-90000}}
+
+echo "{\"name\": \"$CHECK_NAME\", \"output\": \"$CHECK_OUTPUT\", \"status\": $CHECK_STATUS, \"ttl\": $CHECK_TTL}" > /dev/tcp/localhost/3030
+

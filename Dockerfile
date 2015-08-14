@@ -33,6 +33,7 @@ ENV PATH=/opt/sensu/embedded/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/b
 ENV LOGLEVEL=info SENSU_CLIENT_SUBSCRIPTIONS=test
 
 # Add custom checks and scripts
+ADD register-result /register-result
 
 # Add config files
 ADD voltgrid.conf /usr/local/etc/voltgrid.conf
