@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
 
-CHECK_NAME=${1-${CHECK_NAME}}
-CHECK_OUTPUT=${2-${CHECK_OUTPUT}}
-CHECK_STATUS=${3-${CHECK_STATUS}}
-CHECK_TTL=${4-${CHECK_TTL-90000}}
+set -ex
 
-echo "{\"name\": \"$CHECK_NAME\", \"output\": \"$CHECK_OUTPUT\", \"status\": $CHECK_STATUS, \"ttl\": $CHECK_TTL}" > /dev/tcp/localhost/3030
+CHECK_CLIENT=${1-${CHECK_CLIENT}}
+CHECK_NAME=${2-${CHECK_NAME}}
+CHECK_OUTPUT=${3-${CHECK_OUTPUT}}
+CHECK_STATUS=${4-${CHECK_STATUS}}
+CHECK_TTL=${5-${CHECK_TTL-90000}}
+
+# To create a JIT client
+#JIT_CLIENT="{\"name\": \"$CHECK_NAME\", \"address\": \"unknown\", \"subscriptions\": [], \"keepalives\": false }"
+#curl -X POST -d "$JIT_CLIENT" http://${SENSU_PORT_4567_TCP_ADDR}:${SENSU_PORT_4567_TCP_PORT}/clients
+
+# Register the check w/ JIT client
+echo "{\"source\": \"$CHECK_CLIENT\", \"name\": \"$CHECK_NAME\", \"output\": \"$CHECK_OUTPUT\", \"status\": $CHECK_STATUS, \"ttl\": $CHECK_TTL}" > /dev/tcp/localhost/3030
 
