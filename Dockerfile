@@ -4,17 +4,18 @@ MAINTAINER Tim Robinson <tim@panubo.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV BUILD 20160125
+ENV SENSU_VERSION 0.21.0
+ENV SENSU_PKG_VERSION 2
 
 # Some dependencies
 RUN apt-get update && \
   apt-get -y install curl sudo bc python-jinja2
 
 # Setup sensu package repo & Install Sensu
-RUN curl http://repos.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
-  echo "deb     http://repos.sensuapp.org/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list && \
+RUN curl http://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
+  echo "deb     http://repositories.sensuapp.org/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list && \
   apt-get update && \
-  apt-get install sensu && \
+  apt-get install sensu=${SENSU_VERSION}-${SENSU_PKG_VERSION} && \
   echo "EMBEDDED_RUBY=true" > /etc/default/sensu
 
 RUN curl -L https://github.com/voltgrid/voltgrid-pie/archive/v1.tar.gz | tar -C /usr/local/bin --strip-components 1 -zxf - voltgrid-pie-1/voltgrid.py
