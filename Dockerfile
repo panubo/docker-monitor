@@ -4,6 +4,8 @@ MAINTAINER Tim Robinson <tim@panubo.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
+ENV BUILD 20160125
+
 # Some dependencies
 RUN apt-get update && \
   apt-get -y install curl sudo bc python-jinja2
