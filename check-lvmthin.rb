@@ -54,8 +54,7 @@ class CheckLVMThin < Sensu::Plugin::Check::CLI
   # Get thin pool info
   #
   def thin_pools
-    #`sudo lvs --noheadings --separator : -o lv_attr,lv_name,data_percent,metadata_percent`.lines.each do |line|
-    `cat lvs.txt`.lines.each do |line|
+    `sudo lvs --noheadings --separator : -o lv_attr,lv_name,data_percent,metadata_percent`.lines.each do |line|
       next unless line.strip =~ /^t/
       pool = {}
       pool[:attr], pool[:name], pool[:data_percent], pool[:metadata_percent] = line.strip.split(":")
