@@ -9,7 +9,7 @@ ENV SENSU_PKG_VERSION 2
 
 # Some dependencies
 RUN apt-get update && \
-  apt-get -y install curl sudo bc python-jinja2
+  apt-get -y install curl sudo bc python-jinja2 lvm2
 
 # Setup sensu package repo & Install Sensu
 RUN curl http://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
