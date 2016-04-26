@@ -35,13 +35,13 @@ class CheckLVMThin < Sensu::Plugin::Check::CLI
          short: '-w PERCENT',
          description: 'Warn if PERCENT or more of pool full',
          proc: proc(&:to_i),
-         default: 85
+         default: 80
 
   option :crit,
          short: '-c PERCENT',
          description: 'Critical if PERCENT or more of pool full',
          proc: proc(&:to_i),
-         default: 95
+         default: 90
 
   # Setup variables
   #
