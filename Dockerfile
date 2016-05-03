@@ -20,9 +20,6 @@ RUN curl http://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
 
 RUN curl -L https://github.com/voltgrid/voltgrid-pie/archive/v1.tar.gz | tar -C /usr/local/bin --strip-components 1 -zxf - voltgrid-pie-1/voltgrid.py
 
-ENTRYPOINT ["/usr/local/bin/voltgrid.py"]
-CMD ["/opt/sensu/bin/sensu-client", "-c", "/etc/sensu/config.json", "-d", "/etc/sensu/conf.d", "-e", "/etc/sensu/extensions", "-L", "warn"]
-
 # Install some plugins/checks
 RUN apt-get install -y build-essential && \
   /opt/sensu/embedded/bin/gem install \
@@ -44,3 +41,7 @@ ADD voltgrid.conf /usr/local/etc/voltgrid.conf
 ADD config.json /etc/sensu/config.json
 ADD client.json /etc/sensu/conf.d/client.json
 ADD sudoers /etc/sudoers.d/sensu
+
+ADD entry.sh /
+ENTRYPOINT ["/entry.sh", "/usr/local/bin/voltgrid.py"]
+CMD ["/opt/sensu/bin/sensu-client", "-c", "/etc/sensu/config.json", "-d", "/etc/sensu/conf.d", "-e", "/etc/sensu/extensions", "-L", "warn"]
