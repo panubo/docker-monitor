@@ -34,6 +34,7 @@ ENV LOGLEVEL=info SENSU_CLIENT_SUBSCRIPTIONS=test
 
 # Add custom checks and scripts
 ADD register-result /register-result
+ADD register-result.py /register-result.py
 ADD check-lvmthin.rb /opt/sensu/embedded/bin/check-lvmthin.rb
 
 # Add config files
