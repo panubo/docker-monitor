@@ -9,7 +9,7 @@ ENV SENSU_PKG_VERSION 2
 
 # Some dependencies
 RUN apt-get update && \
-  apt-get -y install curl sudo bc python-jinja2 lvm2 && \
+  apt-get -y install curl sudo bc python-jinja2 lvm2 btrfs-tools && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
@@ -44,6 +44,7 @@ ENV LOGLEVEL=info SENSU_CLIENT_SUBSCRIPTIONS=test
 # Add custom checks and scripts
 ADD register-result /register-result
 ADD check-lvmthin.rb /opt/sensu/embedded/bin/check-lvmthin.rb
+ADD check-btrfs.rb /opt/sensu/embedded/bin/check-btrfs.rb
 
 # Add config files
 ADD voltgrid.conf /usr/local/etc/voltgrid.conf
@@ -55,4 +56,4 @@ ADD entry.sh /
 ENTRYPOINT ["/entry.sh", "/usr/local/bin/voltgrid.py"]
 CMD ["/opt/sensu/bin/sensu-client", "-c", "/etc/sensu/config.json", "-d", "/etc/sensu/conf.d", "-e", "/etc/sensu/extensions", "-L", "warn"]
 
-ENV BUILD_VERSION 0.26.5-2
+ENV BUILD_VERSION 0.26.5-4
