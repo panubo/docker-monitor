@@ -56,4 +56,4 @@ ADD entry.sh /
 ENTRYPOINT ["/entry.sh", "/usr/local/bin/voltgrid.py"]
 CMD ["/opt/sensu/bin/sensu-client", "-c", "/etc/sensu/config.json", "-d", "/etc/sensu/conf.d", "-e", "/etc/sensu/extensions", "-L", "warn"]
 
-ENV BUILD_VERSION 0.26.5-4
+ENV BUILD_VERSION 0.26.5-5
