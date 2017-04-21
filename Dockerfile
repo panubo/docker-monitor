@@ -35,6 +35,7 @@ RUN apt-get update && \
   sensu-plugins-ssl \
   sensu-plugins-aws \
   sensu-plugins-http \
+  filesize \
   --no-rdoc --no-ri && \
   apt-get remove -y build-essential && apt-get -y autoremove && apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -56,4 +57,4 @@ ADD entry.sh /
 ENTRYPOINT ["/entry.sh", "/usr/local/bin/voltgrid.py"]
 CMD ["/opt/sensu/bin/sensu-client", "-c", "/etc/sensu/config.json", "-d", "/etc/sensu/conf.d", "-e", "/etc/sensu/extensions", "-L", "warn"]
 
-ENV BUILD_VERSION 0.26.5-5
+ENV BUILD_VERSION 0.26.5-6

@@ -4,6 +4,9 @@ VERSION = $(shell sed -E -e '/^ENV BUILD_VERSION/!d' -e 's/^ENV BUILD_VERSION (.
 help:
 	@printf "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s :)\n"
 
+bash: ## Runs bash in the latest build
+	docker run --rm -it --privileged --security-opt label:disable -v /:/host/:ro -v /dev:/host/dev $(NAME):latest bash
+
 build: ## Builds docker image latest
 	docker build -t $(NAME):latest .
 

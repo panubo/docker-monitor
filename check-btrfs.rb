@@ -19,6 +19,7 @@
 # Released under the MIT License
 
 require 'sensu-plugin/check/cli'
+require 'filesize'
 
 class CheckBtrfs < Sensu::Plugin::Check::CLI
 
@@ -34,6 +35,10 @@ class CheckBtrfs < Sensu::Plugin::Check::CLI
     :proc => proc {|a| a.to_i },
     :default => 95
 
+  option :mounted,
+    :long => '--mounted',
+    :description => 'Only check mounted btrfs'
+
   option :debug,
     :short => '-d',
     :long => '--debug',
@@ -43,17 +48,21 @@ class CheckBtrfs < Sensu::Plugin::Check::CLI
     super
     @crit_dev = []
     @warn_dev = []
+    @ok_dev = []
     @line_count = 0
   end
 
-  # TODO: make "-m" option configuration, "-m" show only mounted btrfs
+  # TODO: allow "--mounted" to be configurable
   def read_fi
-    `sudo btrfs filesystem show -m`.split("\n").each do |line|
+    cmd_opts = ""
+    cmd_opts += " --mounted" if config[:mounted]
+    `sudo btrfs filesystem show #{cmd_opts}`.split("\n").each do |line|
       begin
-        match = line.match(/devid\s+\d+\s+size\s+(\d+([\d\.]+)?)GiB\s+used\s+(\d+([\d\.]+)?)GiB\s+path\s+([\w\/]+)/)
+        match = line.match(/devid\s+\d+\s+size\s+(\d+([\d\.]+)?[M|G|T]iB)\s+used\s+(\d+([\d\.]+)?[M|G|T]iB)\s+path\s+([\w\/\-]+)/)
         next unless match
-        size = match[1].to_f
-        used = match[3].to_f
+        # Filesize.from(match[1]).to_i
+        size = Filesize.from(match[1]).to_f
+        used = Filesize.from(match[3]).to_f
         dev = match[5]
         percent = used / size * 100
       rescue
@@ -65,12 +74,14 @@ class CheckBtrfs < Sensu::Plugin::Check::CLI
         @crit_dev << "#{dev} #{'%.2f' % percent}%"
       elsif percent >= config[:warn]
         @warn_dev << "#{dev} #{'%.2f' % percent}%"
+      else
+        @ok_dev << "#{dev} #{'%.2f' % percent}%"
       end
     end
   end
 
   def usage_summary
-    (@crit_dev + @warn_dev).join(', ')
+    (@crit_dev + @warn_dev + @ok_dev).join(', ')
   end
 
   def run
@@ -78,7 +89,7 @@ class CheckBtrfs < Sensu::Plugin::Check::CLI
     unknown 'No devices found' unless @line_count > 0
     critical usage_summary unless @crit_dev.empty?
     warning usage_summary unless @warn_dev.empty?
-    ok "All devices usage under #{config[:warn]}%"
+    ok "All devices usage under #{config[:warn]}% #{usage_summary}"
   end
 
 end
