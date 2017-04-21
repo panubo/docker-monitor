@@ -46,8 +46,9 @@ class CheckBtrfs < Sensu::Plugin::Check::CLI
     @line_count = 0
   end
 
+  # TODO: make "-m" option configuration, "-m" show only mounted btrfs
   def read_fi
-    `sudo btrfs fi show`.split("\n").each do |line|
+    `sudo btrfs filesystem show -m`.split("\n").each do |line|
       begin
         match = line.match(/devid\s+\d+\s+size\s+(\d+([\d\.]+)?)GiB\s+used\s+(\d+([\d\.]+)?)GiB\s+path\s+([\w\/]+)/)
         next unless match
