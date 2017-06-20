@@ -6,14 +6,14 @@ ENV SENSU_VERSION 0.26.5
 ENV SENSU_PKG_VERSION 2
 
 # Some dependencies
-RUN export DEBIAN_FRONTEND=noninteractive &&
+RUN export DEBIAN_FRONTEND=noninteractive && \
   apt-get update && \
   apt-get -y install curl sudo bc python-jinja2 lvm2 btrfs-tools && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
 # Setup sensu package repo & Install Sensu
-RUN export DEBIAN_FRONTEND=noninteractive &&
+RUN export DEBIAN_FRONTEND=noninteractive && \
   curl http://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
   echo "deb     http://repositories.sensuapp.org/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list && \
   apt-get update && \
@@ -34,7 +34,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 COPY lite /lite/
 
 # Install some plugins/checks
-RUN export DEBIAN_FRONTEND=noninteractive &&
+RUN export DEBIAN_FRONTEND=noninteractive && \
   apt-get update && \
   apt-get install -y build-essential && \
   /opt/sensu/embedded/bin/gem install \
