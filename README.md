@@ -40,7 +40,7 @@ docker run --rm -t -i \
   -e MONITOR_HOST=api.sensu.example.com \
   -e MONITOR_USERNAME=myuser \
   -e MONITOR_PASSWORD=mypassword \
-  panubo/monitor-lite
+  docker.io/panubo/monitor
 ```
 
 ## Known issues
