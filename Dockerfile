@@ -2,19 +2,19 @@ FROM debian:jessie
 
 MAINTAINER Tim Robinson <tim@panubo.com>
 
-ENV DEBIAN_FRONTEND noninteractive
-
 ENV SENSU_VERSION 0.26.5
 ENV SENSU_PKG_VERSION 2
 
 # Some dependencies
-RUN apt-get update && \
+RUN export DEBIAN_FRONTEND=noninteractive && \
+  apt-get update && \
   apt-get -y install curl sudo bc python-jinja2 lvm2 btrfs-tools && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
 # Setup sensu package repo & Install Sensu
-RUN curl http://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
+RUN export DEBIAN_FRONTEND=noninteractive && \
+  curl http://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
   echo "deb     http://repositories.sensuapp.org/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list && \
   apt-get update && \
   apt-get install sensu=${SENSU_VERSION}-${SENSU_PKG_VERSION} && \
@@ -24,8 +24,18 @@ RUN curl http://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
 
 RUN curl -L https://github.com/voltgrid/voltgrid-pie/archive/v1.tar.gz | tar -C /usr/local/bin --strip-components 1 -zxf - voltgrid-pie-1/voltgrid.py
 
+# Install lite requirements
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
+    apt-get install -y curl monitoring-plugins-basic jq python && \
+    apt-get -y autoremove && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY lite /lite/
+
 # Install some plugins/checks
-RUN apt-get update && \
+RUN export DEBIAN_FRONTEND=noninteractive && \
+  apt-get update && \
   apt-get install -y build-essential && \
   /opt/sensu/embedded/bin/gem install \
   sensu-plugins-disk-checks \
@@ -54,7 +64,6 @@ ADD client.json /etc/sensu/conf.d/client.json
 ADD sudoers /etc/sudoers.d/sensu
 
 ADD entry.sh /
-ENTRYPOINT ["/entry.sh", "/usr/local/bin/voltgrid.py"]
-CMD ["/opt/sensu/bin/sensu-client", "-c", "/etc/sensu/config.json", "-d", "/etc/sensu/conf.d", "-e", "/etc/sensu/extensions", "-L", "warn"]
+ENTRYPOINT ["/entry.sh"]
 
 ENV BUILD_VERSION 0.26.5-6
