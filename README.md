@@ -20,13 +20,12 @@ docker run --rm \
   -v /:/host/:ro -v /dev:/host/dev \
   -e SENSU_CLIENT_SUBSCRIPTIONS=node \
   -e SENSU_PORT_5672_TCP_ADDR=127.0.0.1 \
-  quay.io/panubo/monitor:latest
+  docker.io/panubo/monitor full
 ```
 
 ## Environment config (lite mode)
 
 - `CHECK_COMMANDS` - checks to run default `check_disk check_load`.
-- `MONITOR_MODE` - enable `lite` mode.
 - `MONITOR_HOST`
 - `MONITOR_USERNAME`
 - `MONITOR_PASSWORD`
@@ -35,12 +34,16 @@ docker run --rm \
 ## Usage Example (lite mode)
 
 ```bash
-docker run --rm -t -i \
-  -e MONITOR_MODE=lite \
+docker run --rm \
+  --name sensu-client \
+  --hostname $HOSTNAME \
+  --privileged \
+  --security-opt label:disable \
+  -v /:/host/:ro -v /dev:/host/dev \
   -e MONITOR_HOST=api.sensu.example.com \
   -e MONITOR_USERNAME=myuser \
   -e MONITOR_PASSWORD=mypassword \
-  docker.io/panubo/monitor
+  docker.io/panubo/monitor lite
 ```
 
 ## Known issues

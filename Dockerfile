@@ -64,7 +64,6 @@ ADD client.json /etc/sensu/conf.d/client.json
 ADD sudoers /etc/sudoers.d/sensu
 
 ADD entry.sh /
-ENTRYPOINT ["/entry.sh", "/usr/local/bin/voltgrid.py"]
-CMD ["/opt/sensu/bin/sensu-client", "-c", "/etc/sensu/config.json", "-d", "/etc/sensu/conf.d", "-e", "/etc/sensu/extensions", "-L", "warn"]
+ENTRYPOINT ["/entry.sh"]
 
 ENV BUILD_VERSION 0.26.5-6
