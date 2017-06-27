@@ -5,7 +5,7 @@
 [ "${DEBUG:-false}" == 'true' ] && set -x
 
 # Defaults
-: ${CHECK_COMMANDS:='check-disk-usage check_load'}
+: ${CHECK_COMMANDS:='check-disk-usage check_load check_lvm'}
 : ${CHECK_TTL:='900'}
 : ${CHECK_MIN_INTERVAL:='300'}
 

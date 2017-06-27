@@ -25,7 +25,7 @@ docker run --rm \
 
 ## Environment config (lite mode)
 
-- `CHECK_COMMANDS` - checks to run default `check_disk check_load`.
+- `CHECK_COMMANDS` - checks to run default `check-disk-usage check_load check_lvm`.
 - `MONITOR_HOST`
 - `MONITOR_USERNAME`
 - `MONITOR_PASSWORD`
