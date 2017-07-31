@@ -1,28 +1,29 @@
-FROM debian:jessie
+FROM docker.io/debian:jessie
 
 MAINTAINER Tim Robinson <tim@panubo.com>
 
-ENV SENSU_VERSION 0.26.5
-ENV SENSU_PKG_VERSION 2
+ENV SENSU_VERSION 1.0.0
+ENV SENSU_PKG_VERSION 1
 
 # Some dependencies
 RUN export DEBIAN_FRONTEND=noninteractive && \
   apt-get update && \
-  apt-get -y install curl sudo bc python-jinja2 lvm2 btrfs-tools && \
+  apt-get -y install curl sudo bc python-jinja2 lvm2 btrfs-tools apt-transport-https && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
 # Setup sensu package repo & Install Sensu
 RUN export DEBIAN_FRONTEND=noninteractive && \
-  curl http://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
-  echo "deb     http://repositories.sensuapp.org/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list && \
+  curl https://sensu.global.ssl.fastly.net/apt/pubkey.gpg | apt-key add - && \
+  echo "deb     https://sensu.global.ssl.fastly.net/apt jessie main" | tee /etc/apt/sources.list.d/sensu.list && \
   apt-get update && \
   apt-get install sensu=${SENSU_VERSION}-${SENSU_PKG_VERSION} && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
   echo "EMBEDDED_RUBY=true" > /etc/default/sensu
 
-RUN curl -L https://github.com/voltgrid/voltgrid-pie/archive/v1.tar.gz | tar -C /usr/local/bin --strip-components 1 -zxf - voltgrid-pie-1/voltgrid.py
+RUN export VOLTGRID_PIE_VERSION=1.0.6; curl -L https://github.com/voltgrid/voltgrid-pie/archive/v${VOLTGRID_PIE_VERSION}.tar.gz \
+  | tar -C /usr/local/bin --strip-components 1 -zxf - voltgrid-pie-${VOLTGRID_PIE_VERSION}/voltgrid.py
 
 # Install lite requirements
 RUN export DEBIAN_FRONTEND=noninteractive && \
@@ -65,5 +66,6 @@ ADD sudoers /etc/sudoers.d/sensu
 
 ADD entry.sh /
 ENTRYPOINT ["/entry.sh"]
+CMD ["full"]
 
-ENV BUILD_VERSION 0.26.5-7
+ENV BUILD_VERSION 1.0.0-1
