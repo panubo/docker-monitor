@@ -4,6 +4,7 @@ MAINTAINER Tim Robinson <tim@panubo.com>
 
 ENV SENSU_VERSION 0.26.5
 ENV SENSU_PKG_VERSION 2
+ENV VOLTGRID_PIE=1.0.6 VOLTGRID_PIE_SHA1=11572a8ea15fb31cddeaa7e1438db61420556587
 
 # Some dependencies
 RUN export DEBIAN_FRONTEND=noninteractive && \
@@ -22,7 +23,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
   rm -rf /var/lib/apt/lists/* && \
   echo "EMBEDDED_RUBY=true" > /etc/default/sensu
 
-RUN curl -L https://github.com/voltgrid/voltgrid-pie/archive/v1.tar.gz | tar -C /usr/local/bin --strip-components 1 -zxf - voltgrid-pie-1/voltgrid.py
+# Install Voltgrid.py
+RUN DIR=$(mktemp -d) && cd ${DIR} && \
+  curl -s -L https://github.com/voltgrid/voltgrid-pie/archive/v${VOLTGRID_PIE}.tar.gz -o voltgrid-pie.tar.gz && \
+  sha1sum voltgrid-pie.tar.gz && \
+  echo "${VOLTGRID_PIE_SHA1} voltgrid-pie.tar.gz" | sha1sum -c - && \
+  tar -C /usr/local/bin --strip-components 1 -zxf voltgrid-pie.tar.gz voltgrid-pie-${VOLTGRID_PIE}/voltgrid.py && \
+  rm -rf ${DIR}
 
 # Install lite requirements
 RUN export DEBIAN_FRONTEND=noninteractive && \
