@@ -15,7 +15,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
 # Setup sensu package repo & Install Sensu
 RUN export DEBIAN_FRONTEND=noninteractive && \
-  curl http://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
+  curl https://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
   echo "deb     http://repositories.sensuapp.org/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list && \
   apt-get update && \
   apt-get install sensu=${SENSU_VERSION}-${SENSU_PKG_VERSION} && \
