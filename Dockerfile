@@ -73,4 +73,4 @@ ADD sudoers /etc/sudoers.d/sensu
 ADD entry.sh /
 ENTRYPOINT ["/entry.sh"]
 
-ENV BUILD_VERSION 0.26.5-6
+ENV BUILD_VERSION 0.26.5-7
