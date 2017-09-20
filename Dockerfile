@@ -52,6 +52,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
   sensu-plugins-ssl \
   sensu-plugins-aws \
   sensu-plugins-http \
+  sensu-plugins-redis \
   filesize \
   --no-rdoc --no-ri && \
   apt-get remove -y build-essential && apt-get -y autoremove && apt-get clean && rm -rf /var/lib/apt/lists/*
