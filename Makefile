@@ -20,9 +20,9 @@ docker-release: ## Builds and pushes docker image
 	git checkout tags/$(VERSION)
 	docker build -t $(NAME):$(VERSION) .
 	docker tag $(NAME):$(VERSION) docker.io/$(NAME):$(VERSION)
-	docker tag $(NAME):$(VERSION) quay.io/$(NAME):$(VERSION)
+	docker tag $(NAME):$(VERSION) docker.io/$(NAME):$(VERSION)
 	docker push docker.io/$(NAME):$(VERSION)
-	docker push quay.io/$(NAME):$(VERSION)
+	docker push docker.io/$(NAME):$(VERSION)
 
 test:
 	[ "x$$(git status --porcelain 2> /dev/null)" == "x" ]
