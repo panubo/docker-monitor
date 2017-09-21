@@ -8,7 +8,7 @@ bash: ## Runs bash in the latest build
 	docker run --rm -it --privileged --security-opt label:disable -v /:/host/:ro -v /dev:/host/dev $(NAME):latest bash
 
 build: ## Builds docker image latest
-	docker build -t $(NAME):latest .
+	docker build --pull -t $(NAME):latest .
 
 git-release: ## Creates git tag for release
 	[ "x$$(git status --porcelain 2> /dev/null)" == "x" ]
@@ -18,7 +18,7 @@ git-release: ## Creates git tag for release
 
 docker-release: ## Builds and pushes docker image
 	git checkout tags/$(VERSION)
-	docker build -t $(NAME):$(VERSION) .
+	docker build --pull -t $(NAME):$(VERSION) .
 	docker tag $(NAME):$(VERSION) docker.io/$(NAME):$(VERSION)
 	docker tag $(NAME):$(VERSION) docker.io/$(NAME):$(VERSION)
 	docker push docker.io/$(NAME):$(VERSION)
