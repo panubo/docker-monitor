@@ -62,8 +62,7 @@ ENV LOGLEVEL=info SENSU_CLIENT_SUBSCRIPTIONS=test
 
 # Add custom checks and scripts
 ADD register-result /register-result
-ADD check-lvmthin.rb /opt/sensu/embedded/bin/check-lvmthin.rb
-ADD check-btrfs.rb /opt/sensu/embedded/bin/check-btrfs.rb
+ADD checks/* /opt/sensu/embedded/bin/
 
 # Add config files
 ADD voltgrid.conf /usr/local/etc/voltgrid.conf
@@ -74,4 +73,4 @@ ADD sudoers /etc/sudoers.d/sensu
 ADD entry.sh /
 ENTRYPOINT ["/entry.sh"]
 
-ENV BUILD_VERSION 0.26.5-7
+ENV BUILD_VERSION 0.26.5-8
