@@ -13,7 +13,6 @@ build: ## Builds docker image latest
 git-release: ## Creates git tag for release
 	[ "x$$(git status --porcelain 2> /dev/null)" == "x" ]
 	git tag $(VERSION)
-	git push -u origin release/$(VERSION)
 	git push --tags
 
 docker-release: ## Builds and pushes docker image
