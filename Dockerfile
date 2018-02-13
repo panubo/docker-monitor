@@ -1,22 +1,20 @@
-FROM debian:jessie
+FROM debian:stretch
 
-MAINTAINER Tim Robinson <tim@panubo.com>
-
-ENV SENSU_VERSION 0.26.5
+ENV SENSU_VERSION 1.2.1
 ENV SENSU_PKG_VERSION 2
 ENV VOLTGRID_PIE=1.0.6 VOLTGRID_PIE_SHA1=11572a8ea15fb31cddeaa7e1438db61420556587
 
 # Some dependencies
 RUN export DEBIAN_FRONTEND=noninteractive && \
   apt-get update && \
-  apt-get -y install curl sudo bc python-jinja2 lvm2 btrfs-tools && \
+  apt-get -y install curl sudo bc python-jinja2 lvm2 btrfs-tools gnupg2 && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
 # Setup sensu package repo & Install Sensu
 RUN export DEBIAN_FRONTEND=noninteractive && \
   curl https://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - && \
-  echo "deb     http://repositories.sensuapp.org/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list && \
+  echo "deb     http://repositories.sensuapp.org/apt stretch main" | tee /etc/apt/sources.list.d/sensu.list && \
   apt-get update && \
   apt-get install sensu=${SENSU_VERSION}-${SENSU_PKG_VERSION} && \
   apt-get clean && \
@@ -73,4 +71,4 @@ ADD sudoers /etc/sudoers.d/sensu
 ADD entry.sh /
 ENTRYPOINT ["/entry.sh"]
 
-ENV BUILD_VERSION 0.26.5-8
+ENV BUILD_VERSION 1.2.1-1
