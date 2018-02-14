@@ -1,0 +1,7 @@
+{
+    "client": {
+        "name": "{{ .Env.HOSTNAME }}",
+        "address": "{{ if (has .Env "IPADDRESS") }}{{ .Env.IPADDRESS }}{{ else }}{{ .Env.HOSTNAME }}{{ end }}",
+        "subscriptions": {{ .Env.SENSU_CLIENT_SUBSCRIPTIONS | strings.Split "," | toJSON }}
+    }
+}

@@ -1,6 +1,6 @@
 {
     "rabbitmq": {
-        "host": "{{ SENSU_PORT_5672_TCP_ADDR }}",
+        "host": "{{ .Env.SENSU_PORT_5672_TCP_ADDR }}",
         "vhost": "/",
         "user": "guest",
         "password": "guest"
