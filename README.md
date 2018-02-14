@@ -1,11 +1,40 @@
 # Monitor
 
+Docker image containing sensu-client with some standard checks and tools.
+
 ## Features
 
 - Provides `/register-result` executable for external check result submission.
 - "Full" and "Lite" modes. Full mode runs the Sensu Client. In lite mode this container will run the monitoring-plugins.org ("check_*") commands, custom plugins or Sensu plugins and provide the results to the Sensu API. It does not depend on Rabbitmq transport. Rather it uses the Sensu `/results` API.
 
 Lite mode requires the Sensu server to be configured with basic authentication on the `/results` API endpoint. This can be achieved by using an HTTP proxy.
+
+## Sensu Plugins
+
+* sensu-plugins-disk-checks
+* sensu-plugins-memory-checks
+* sensu-plugins-load-checks
+* sensu-plugins-kubernetes
+* sensu-plugins-ssl
+* sensu-plugins-aws
+* sensu-plugins-http
+* sensu-plugins-redis
+
+### From the checks folder
+
+* check-btrfs (Checks a BTRFS filesystem device usage)
+* check-lvmthin (Checks LVM thin volumes data and meta data usage)
+* check-redis (Wrapper around the sensu-plugins-redis)
+
+## Options
+
+* `HOSTNAME` (required, but always set by Docker)
+* `IPADDRESS` (optional, HOSTNAME is used if not set)
+* `SENSU_CLIENT_SIGNATURE` (optional, see [Sensu Client Signature](https://sensuapp.org/docs/latest/reference/clients.html#client-signature))
+* `SENSU_CLIENT_SUBSCRIPTIONS` (required, defaults to "test", comma separated list)
+* `SENSU_PORT_5672_TCP_ADDR` (required, address of sensu server)
+
+_The `SENSU_PORT_5672_TCP_ADDR` variable is named based on the legacy container links and may be changed in the future_
 
 ## Usage Example (full mode)
 
@@ -44,10 +73,16 @@ docker run --rm \
   docker.io/panubo/monitor lite
 ```
 
+## Usage Example (register-result)
+
+```
+CHECK_NAME=acme
+CHECK_OUTPUT="Acme service ran OK"
+CHECK_STATUS=0
+CHECK_TTL=4200 # Check will expire in 70min unless the service runs again.
+docker exec monitor /register-result "${HOSTNAME}" "${CHECK_NAME}" "${CHECK_OUTPUT}" "${CHECK_STATUS}" "${CHECK_TTL}"
+```
+
 ## Known issues
 
-- `check_disk` has [spurious errors](https://github.com/monitoring-plugins/monitoring-plugins/issues/847) when run from within a container.
-
-## Status
-
-Work in Progress.
+- `check_disk` has [spurious errors](https://github.com/monitoring-plugins/monitoring-plugins/issues/847) when run from within a container. (lite only)
