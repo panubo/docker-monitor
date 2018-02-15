@@ -36,6 +36,9 @@ Lite mode requires the Sensu server to be configured with basic authentication o
 * `SENSU_SSL`
 * `SENSU_CLIENT_CERT` (default "/etc/sensu/ssl/sensu.pem")
 * `SENSU_CLIENT_KEY` (default "/etc/sensu/ssl/sensu-key.pem")
+* `SENSU_RABBITMQ_CLIENT_USER` (default, "guest")
+* `SENSU_RABBITMQ_CLIENT_PASS` (default, "guest")
+* `SENSU_RABBITMQ_VHOST` (default, "/")
 
 _The `SENSU_PORT_5672_TCP_ADDR` variable is named based on the legacy container links and may be changed in the future_
 

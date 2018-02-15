@@ -72,6 +72,7 @@ RUN set -x \
 
 ENV PATH=/opt/sensu/embedded/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin TMPDIR=/var/tmp HOME=/opt/sensu
 ENV LOGLEVEL=info SENSU_CLIENT_SUBSCRIPTIONS=test
+ENV SENSU_RABBITMQ_CLIENT_USER=guest SENSU_RABBITMQ_CLIENT_PASS=guest SENSU_RABBITMQ_VHOST=/
 
 COPY lite /lite/
 

@@ -10,8 +10,8 @@
     "port": 5672,
 {{- end }}
     "host": "{{ .Env.SENSU_PORT_5672_TCP_ADDR }}",
-    "vhost": "/",
-    "user": "guest",
-    "password": "guest"
+    "user": "{{ .Env.SENSU_RABBITMQ_CLIENT_USER }}",
+    "password": "{{ .Env.SENSU_RABBITMQ_CLIENT_PASS }}",
+    "vhost": "{{ .Env.SENSU_RABBITMQ_VHOST }}"
   }
 }
