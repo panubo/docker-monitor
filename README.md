@@ -51,6 +51,21 @@ docker run --rm \
   -e SENSU_CLIENT_SUBSCRIPTIONS=node \
   -e SENSU_PORT_5672_TCP_ADDR=127.0.0.1 \
   docker.io/panubo/monitor full
+
+# With SSL
+docker run --rm \
+  --name sensu-client \
+  --hostname $HOSTNAME \
+  --privileged \
+  --security-opt label:disable \
+  -v /:/host/:ro -v /dev:/host/dev \
+  -v $(pwd)/../docker-sensu-aio/ssl:/etc/sensu/ssl \
+  -e SENSU_CLIENT_SUBSCRIPTIONS=node \
+  -e SENSU_PORT_5672_TCP_ADDR=127.0.0.1 \
+  -e SENSU_SSL=true \
+  -e SENSU_CLIENT_CERT=/etc/sensu/ssl/localhost.pem \
+  -e SENSU_CLIENT_KEY=/etc/sensu/ssl/localhost-key.pem \
+  docker.io/panubo/monitor full
 ```
 
 ## Environment config (lite mode)
