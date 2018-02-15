@@ -33,6 +33,9 @@ Lite mode requires the Sensu server to be configured with basic authentication o
 * `SENSU_CLIENT_SIGNATURE` (optional, see [Sensu Client Signature](https://sensuapp.org/docs/latest/reference/clients.html#client-signature))
 * `SENSU_CLIENT_SUBSCRIPTIONS` (required, defaults to "test", comma separated list)
 * `SENSU_PORT_5672_TCP_ADDR` (required, address of sensu server)
+* `SENSU_SSL`
+* `SENSU_CLIENT_CERT` (default "/etc/sensu/ssl/sensu.pem")
+* `SENSU_CLIENT_KEY` (default "/etc/sensu/ssl/sensu-key.pem")
 
 _The `SENSU_PORT_5672_TCP_ADDR` variable is named based on the legacy container links and may be changed in the future_
 

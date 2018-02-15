@@ -1,8 +1,17 @@
 {
-    "rabbitmq": {
-        "host": "{{ .Env.SENSU_PORT_5672_TCP_ADDR }}",
-        "vhost": "/",
-        "user": "guest",
-        "password": "guest"
-    }
+  "rabbitmq": {
+{{- if (has .Env "SENSU_SSL") }}
+    "ssl": {
+      "cert_chain_file": "{{ .Env.SENSU_CLIENT_CERT }}",
+      "private_key_file": "{{ .Env.SENSU_CLIENT_KEY }}"
+    },
+    "port": 5671,
+{{- else }}
+    "port": 5672,
+{{- end }}
+    "host": "{{ .Env.SENSU_PORT_5672_TCP_ADDR }}",
+    "vhost": "/",
+    "user": "guest",
+    "password": "guest"
+  }
 }
