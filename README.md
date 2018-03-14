@@ -108,3 +108,14 @@ docker exec monitor /register-result "${HOSTNAME}" "${CHECK_NAME}" "${CHECK_OUTP
 ## Known issues
 
 - `check_disk` has [spurious errors](https://github.com/monitoring-plugins/monitoring-plugins/issues/847) when run from within a container. (lite only)
+
+## Developing
+
+Development is performed on `master` branch and merged to the appropriate `release/x.x.x` branch.
+
+To release an update:
+
+1. Update the `BUILD_VERSION` in the `Dockerfile` and commit.
+2. Merge to the `release/x.x.x` branch.
+3. Run `make git-release`
+4. Run `make docker-release`
