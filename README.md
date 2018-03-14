@@ -5,20 +5,21 @@ Docker image containing sensu-client with some standard checks and tools.
 ## Features
 
 - Provides `/register-result` executable for external check result submission.
-- "Full" and "Lite" modes. Full mode runs the Sensu Client. In lite mode this container will run the monitoring-plugins.org ("check_*") commands, custom plugins or Sensu plugins and provide the results to the Sensu API. It does not depend on Rabbitmq transport. Rather it uses the Sensu `/results` API.
+- "Full" and "Lite" modes. Full mode runs the Sensu Client. In lite mode this container will run the monitoring-plugins.org ("check_*") commands, custom plugins or Sensu plugins and provide the results to the Sensu API. It does not depend on Rabbitmq transport. Rather it uses the [Sensu `/results` API](https://sensuapp.org/docs/1.0/api/results-api.html#the-results-api-endpoint)\*.
 
-Lite mode requires the Sensu server to be configured with basic authentication on the `/results` API endpoint. This can be achieved by using an HTTP proxy.
+\* Lite mode requires the Sensu server to be configured with basic authentication on the `/results` API endpoint. This can be achieved by using an HTTP proxy.
 
 ## Sensu Plugins
 
-* sensu-plugins-disk-checks
-* sensu-plugins-memory-checks
-* sensu-plugins-load-checks
-* sensu-plugins-kubernetes
-* sensu-plugins-ssl
 * sensu-plugins-aws
+* sensu-plugins-disk-checks
+* sensu-plugins-elasticsearch
 * sensu-plugins-http
+* sensu-plugins-kubernetes
+* sensu-plugins-load-checks
+* sensu-plugins-memory-checks
 * sensu-plugins-redis
+* sensu-plugins-ssl
 
 ### From the checks folder
 
