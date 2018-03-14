@@ -62,6 +62,7 @@ RUN set -x \
       sensu-plugins-aws \
       sensu-plugins-http \
       sensu-plugins-redis \
+      sensu-plugins-elasticsearch \
       filesize \
       --no-rdoc --no-ri \
   && apt-get remove -y build-essential \
