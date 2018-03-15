@@ -115,7 +115,7 @@ Development is performed on `master` branch and merged to the appropriate `relea
 
 To release an update:
 
-1. Update the `BUILD_VERSION` in the `Dockerfile` and commit.
-2. Merge to the `release/x.x.x` branch.
+1. Update the `BUILD_VERSION` in the `Dockerfile` and commit to master.
+2. Merge master to the `release/x.x.x` branch.
 3. Run `make git-release`
 4. Run `make docker-release`
