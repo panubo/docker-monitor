@@ -11,7 +11,7 @@ help:
 	@printf "$$(grep -hE '^\S+:.*##' $(MAKEFILE_LIST) | sed -e 's/:.*##\s*/:/' -e 's/^\(.\+\):\(.*\)/\\x1b[36m\1\\x1b[m:\2/' | column -c2 -t -s :)\n"
 
 build: ## Builds docker image latest
-	docker build -t $(NAME):latest .
+	docker build --pull -t $(NAME):latest .
 
 vars:
 	@echo "Branch: $(BRANCH)"
@@ -29,7 +29,7 @@ git-release: ## Creates git tag for release
 
 docker-release: ## Builds and pushes docker image
 	git checkout tags/$(VERSION)
-	docker build -t $(NAME):$(VERSION) .
+	docker build --pull -t $(NAME):$(VERSION) .
 	docker tag $(NAME):$(VERSION) docker.io/$(NAME):$(VERSION)
 	docker tag $(NAME):$(VERSION) docker.io/$(NAME):$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 	docker push docker.io/$(NAME):$(VERSION)
