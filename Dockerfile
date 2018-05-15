@@ -54,14 +54,15 @@ RUN set -x \
   && apt-get update \
   && apt-get install -y build-essential \
   && /opt/sensu/embedded/bin/gem install \
-      sensu-plugins-disk-checks \
-      sensu-plugins-memory-checks \
-      sensu-plugins-load-checks \
-      sensu-plugins-kubernetes \
-      sensu-plugins-ssl \
       sensu-plugins-aws \
+      sensu-plugins-disk-checks \
+      sensu-plugins-elasticsearch \
       sensu-plugins-http \
+      sensu-plugins-kubernetes \
+      sensu-plugins-load-checks \
+      sensu-plugins-memory-checks \
       sensu-plugins-redis \
+      sensu-plugins-ssl \
       filesize \
       --no-rdoc --no-ri \
   && apt-get remove -y build-essential \

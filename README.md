@@ -5,20 +5,21 @@ Docker image containing sensu-client with some standard checks and tools.
 ## Features
 
 - Provides `/register-result` executable for external check result submission.
-- "Full" and "Lite" modes. Full mode runs the Sensu Client. In lite mode this container will run the monitoring-plugins.org ("check_*") commands, custom plugins or Sensu plugins and provide the results to the Sensu API. It does not depend on Rabbitmq transport. Rather it uses the Sensu `/results` API.
+- "Full" and "Lite" modes. Full mode runs the Sensu Client. In lite mode this container will run the monitoring-plugins.org ("check_*") commands, custom plugins or Sensu plugins and provide the results to the Sensu API. It does not depend on Rabbitmq transport. Rather it uses the [Sensu `/results` API](https://sensuapp.org/docs/1.0/api/results-api.html#the-results-api-endpoint)\*.
 
-Lite mode requires the Sensu server to be configured with basic authentication on the `/results` API endpoint. This can be achieved by using an HTTP proxy.
+\* Lite mode requires the Sensu server to be configured with basic authentication on the `/results` API endpoint. This can be achieved by using an HTTP proxy.
 
 ## Sensu Plugins
 
-* sensu-plugins-disk-checks
-* sensu-plugins-memory-checks
-* sensu-plugins-load-checks
-* sensu-plugins-kubernetes
-* sensu-plugins-ssl
 * sensu-plugins-aws
+* sensu-plugins-disk-checks
+* sensu-plugins-elasticsearch
 * sensu-plugins-http
+* sensu-plugins-kubernetes
+* sensu-plugins-load-checks
+* sensu-plugins-memory-checks
 * sensu-plugins-redis
+* sensu-plugins-ssl
 
 ### From the checks folder
 
@@ -107,3 +108,14 @@ docker exec monitor /register-result "${HOSTNAME}" "${CHECK_NAME}" "${CHECK_OUTP
 ## Known issues
 
 - `check_disk` has [spurious errors](https://github.com/monitoring-plugins/monitoring-plugins/issues/847) when run from within a container. (lite only)
+
+## Developing
+
+Development is performed on `master` branch and merged to the appropriate `release/x.x.x` branch.
+
+To release an update:
+
+1. Update the `BUILD_VERSION` in the `Dockerfile` and commit to master.
+2. Merge master to the `release/x.x.x` branch.
+3. Run `make git-release`
+4. Run `make docker-release`
