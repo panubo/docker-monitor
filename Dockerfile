@@ -4,7 +4,7 @@ FROM debian:stretch
 RUN set -x \
   && export DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
-  && apt-get -y install curl sudo bc lvm2 btrfs-tools gnupg2 gosu monitoring-plugins-basic jq python \
+  && apt-get -y install curl sudo bc lvm2 btrfs-tools gnupg2 gosu jq python \
   && apt-get -y autoremove \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
@@ -60,6 +60,7 @@ RUN set -x \
       sensu-plugins-http \
       sensu-plugins-kubernetes \
       sensu-plugins-load-checks \
+      sensu-plugins-cpu-checks \
       sensu-plugins-memory-checks \
       sensu-plugins-redis \
       sensu-plugins-ssl \
@@ -75,8 +76,6 @@ ENV PATH=/opt/sensu/embedded/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/b
 ENV LOGLEVEL=info SENSU_CLIENT_SUBSCRIPTIONS=test
 ENV SENSU_RABBITMQ_CLIENT_USER=guest SENSU_RABBITMQ_CLIENT_PASS=guest SENSU_RABBITMQ_VHOST=/
 
-COPY lite /lite/
-
 # Add custom checks and scripts
 ADD register-result /register-result
 ADD checks/* /opt/sensu/embedded/bin/
@@ -89,4 +88,4 @@ ADD sudoers /etc/sudoers.d/sensu
 ADD entry.sh /
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--", "/entry.sh"]
 
-ENV BUILD_VERSION 1.4.2-1
+ENV BUILD_VERSION 1.4.2-2
