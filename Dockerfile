@@ -4,7 +4,7 @@ FROM debian:stretch
 RUN set -x \
   && export DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
-  && apt-get -y install curl sudo bc lvm2 btrfs-tools gnupg2 gosu jq python \
+  && apt-get -y install curl sudo bc lvm2 btrfs-tools gnupg2 gosu jq python procps \
   && apt-get -y autoremove \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
@@ -88,4 +88,4 @@ ADD sudoers /etc/sudoers.d/sensu
 ADD entry.sh /
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--", "/entry.sh"]
 
-ENV BUILD_VERSION 1.4.2-2
+ENV BUILD_VERSION 1.4.2-3
