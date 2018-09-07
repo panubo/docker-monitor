@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
-set -e
-
 # Check redis slaves are attached to a master. If node is a slave then return ok
+# Wrapper around the sensu-plugins-redis
+#
+# Copyright 2017 Volt Grid Pty Ltd
+# Released under the MIT License
+
+set -e
 
 # Defaults
 REDIS_PORT=${REDIS_PORT:='6380'}

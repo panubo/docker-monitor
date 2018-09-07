@@ -12,12 +12,15 @@ Docker image containing sensu-client with some standard checks and tools.
 ## Sensu Plugins
 
 * sensu-plugins-aws
+* sensu-plugins-cpu-checks
 * sensu-plugins-disk-checks
 * sensu-plugins-elasticsearch
 * sensu-plugins-http
+* sensu-plugins-kafka2
 * sensu-plugins-kubernetes
 * sensu-plugins-load-checks
 * sensu-plugins-memory-checks
+* sensu-plugins-postgres
 * sensu-plugins-redis
 * sensu-plugins-ssl
 
