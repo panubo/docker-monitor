@@ -52,21 +52,23 @@ RUN set -x \
 RUN set -x \
   && export DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
-  && apt-get install -y build-essential \
+  && apt-get install -y build-essential libpq5 libpq-dev \
   && /opt/sensu/embedded/bin/gem install \
       sensu-plugins-aws \
+      sensu-plugins-cpu-checks \
       sensu-plugins-disk-checks \
       sensu-plugins-elasticsearch \
       sensu-plugins-http \
+      sensu-plugins-kafka2 \
       sensu-plugins-kubernetes \
       sensu-plugins-load-checks \
-      sensu-plugins-cpu-checks \
       sensu-plugins-memory-checks \
+      sensu-plugins-postgres \
       sensu-plugins-redis \
       sensu-plugins-ssl \
       filesize \
       --no-rdoc --no-ri \
-  && apt-get remove -y build-essential \
+  && apt-get remove -y build-essential libpq-dev \
   && apt-get -y autoremove \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
@@ -88,4 +90,4 @@ ADD sudoers /etc/sudoers.d/sensu
 ADD entry.sh /
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--", "/entry.sh"]
 
-ENV BUILD_VERSION 1.4.2-3
+ENV BUILD_VERSION 1.4.2-4
