@@ -5,6 +5,11 @@
 {{- if (has .Env "SENSU_CLIENT_SIGNATURE") }}
         "signature": "{{ .Env.SENSU_CLIENT_SIGNATURE }}",
 {{- end }}
+{{- if bool (getenv "SENSU_CLIENT_HTTP_BIND_ALL") }}
+        "http_socket": {
+            "bind": "0.0.0.0"
+        },
+{{- end }}
         "subscriptions": {{ .Env.SENSU_CLIENT_SUBSCRIPTIONS | strings.Split "," | toJSON }}
     }
 }
