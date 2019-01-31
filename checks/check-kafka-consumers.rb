@@ -17,6 +17,8 @@
 #
 
 # From: https://github.com/Jana-Mobile/sensu-plugins/blob/master/burrow/check-kafka-consumers.rb
+# Copyright (c) 2018 Jana Mobile
+# Copyright (c) 2018-2019 Panubo
 # LICENSE MIT
 
 require 'sensu-plugin/check/cli'
@@ -41,6 +43,12 @@ class CheckKafkaConsumers  < Sensu::Plugin::Check::CLI
          short: '-u URL',
          long: '--url URL'
 
+  option :exclude,
+         description: 'regex match consumer groups to exclude',
+         short: '-x PATTERN',
+         long: '--exclude PATTERN',
+         default: '^$'
+
   def check_consumer(cluster, consumer, http)
     consumers_url = "#{config[:base_uri]}/v3/kafka/#{cluster}/consumer/#{consumer}/status"
     req = Net::HTTP::Get.new(consumers_url)
@@ -62,6 +70,9 @@ class CheckKafkaConsumers  < Sensu::Plugin::Check::CLI
 
     consumer_results = {}
     consumers['consumers'].each do|consumer|
+      if consumer.match?(config[:exclude])
+        next
+      end
       result = check_consumer(cluster, consumer, http)
       consumer_results[consumer] = result
     end
