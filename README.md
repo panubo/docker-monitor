@@ -26,10 +26,10 @@ Docker image containing sensu-client with some standard checks and tools.
 
 ### From the checks folder
 
-* check-btrfs (Checks a BTRFS filesystem device usage)
-* check-kafka-consumers (Connects to Burrow and checks Kafka consumer status)  
-* check-lvmthin (Checks LVM thin volumes data and meta data usage)
-* check-redis (Wrapper around the sensu-plugins-redis)
+* check-btrfs.rb (Checks a BTRFS filesystem device usage)
+* check-kafka-consumers.rb (Connects to Burrow and checks Kafka consumer status)
+* check-lvmthin.rb (Checks LVM thin volumes data and meta data usage)
+* check-redis-slaves.sh (Wrapper around the sensu-plugins-redis)
 
 ## Options
 
