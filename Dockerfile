@@ -33,7 +33,7 @@ RUN set -x \
   && rm -f /tmp/* \
   ;
 
-ENV SENSU_VERSION 1.6.2
+ENV SENSU_VERSION 1.7.0
 ENV SENSU_PKG_VERSION 2
 
 # Setup sensu package repo & Install Sensu
@@ -90,4 +90,4 @@ ADD sudoers /etc/sudoers.d/sensu
 ADD entry.sh /
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--", "/entry.sh"]
 
-ENV BUILD_VERSION 1.6.2-2
+ENV BUILD_VERSION 1.7.0-1
