@@ -27,7 +27,7 @@ git-release: ## Creates git tag for release
 	git push -u origin $(BRANCH)
 	git push --tags
 
-docker-release: ## Builds and pushes docker image
+push: ## Builds and pushes docker image
 	git checkout tags/$(VERSION)
 	docker build --pull -t $(NAME):$(VERSION) .
 	docker tag $(NAME):$(VERSION) docker.io/$(NAME):$(VERSION)
@@ -35,3 +35,9 @@ docker-release: ## Builds and pushes docker image
 	docker push docker.io/$(NAME):$(VERSION)
 	docker push docker.io/$(NAME):$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 	git checkout $(BRANCH)
+
+clean: ## Remove built image
+	docker rmi $(NAME):$(VERSION)
+	docker rmi docker.io/$(NAME):$(VERSION)
+	docker rmi docker.io/$(NAME):$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
+	docker rmi $(NAME):latest
