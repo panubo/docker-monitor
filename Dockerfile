@@ -39,8 +39,8 @@ ENV SENSU_PKG_VERSION 2
 # Setup sensu package repo & Install Sensu
 RUN set -x \
   && export DEBIAN_FRONTEND=noninteractive \
-  && curl https://repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - \
-  && echo "deb     http://repositories.sensuapp.org/apt stretch main" | tee /etc/apt/sources.list.d/sensu.list \
+  && curl https://eol-repositories.sensuapp.org/apt/pubkey.gpg | apt-key add - \
+  && echo "deb     http://eol-repositories.sensuapp.org/apt stretch main" | tee /etc/apt/sources.list.d/sensu.list \
   && apt-get update \
   && apt-get install sensu=${SENSU_VERSION}-${SENSU_PKG_VERSION} \
   && apt-get clean \
