@@ -43,5 +43,6 @@ while retry <= 4:
         break
 else:
     print("Failed to send message!")
+    exit(1)
 
 print(json.dumps(result))
