@@ -90,4 +90,4 @@ ADD sudoers /etc/sudoers.d/sensu
 ADD entry.sh /
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--", "/entry.sh"]
 
-ENV BUILD_VERSION 1.7.0-1
+ENV BUILD_VERSION 1.7.0-2
