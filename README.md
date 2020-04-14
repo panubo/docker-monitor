@@ -1,6 +1,6 @@
 # Monitor
 
-Docker image containing sensu-client with some standard checks and tools.
+Docker image containing the Sensu client with some standard checks and tools.
 
 ## Features
 
