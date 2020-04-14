@@ -37,7 +37,7 @@ push: ## Builds and pushes docker image
 	git checkout $(BRANCH)
 
 clean: ## Remove built image
-	docker rmi $(NAME):$(VERSION)
-	docker rmi docker.io/$(NAME):$(VERSION)
-	docker rmi docker.io/$(NAME):$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
-	docker rmi $(NAME):latest
+	docker rmi $(NAME):$(VERSION) || true
+	docker rmi docker.io/$(NAME):$(VERSION) || true
+	docker rmi docker.io/$(NAME):$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH) || true
+	docker rmi $(NAME):latest || true
